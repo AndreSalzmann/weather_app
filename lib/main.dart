@@ -3,19 +3,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/core/service_locator.dart';
 import 'package:weather_app/weather/bloc/weather_bloc.dart';
 
+import 'navigation/navigation.dart';
+
 void main() {
   setupServices();
-  runApp(MyApp());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 
 }
 
 class MyApp extends StatelessWidget {
+  final AppRouter appRouter;
+
+  const MyApp({
+    Key key,
+    @required this.appRouter
+  });
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => WeatherBloc(),
       child: MaterialApp(
         title: 'Flutter Demo',
+        initialRoute: '/',
+        onGenerateRoute: appRouter.onGenerateRoute,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -34,8 +47,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   TextEditingController _controller;
 
   @override
@@ -52,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       appBar: AppBar(
