@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/core/service_locator.dart';
 import 'package:weather_app/weather/model/location.dart';
 import 'package:weather_app/weather/model/weather.dart';
@@ -22,5 +23,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   Stream<WeatherState> mapEventToState(WeatherEvent event) async* {
     print("Event Triggered");
     yield* event.applyAsync(bloc: this);
+  }
+
+  static WeatherBloc of(BuildContext context) =>
+      BlocProvider.of<WeatherBloc>(context);
+
+  @override
+  Future<Function> close() async {
+    await super.close();
   }
 }
